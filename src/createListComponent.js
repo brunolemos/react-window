@@ -336,7 +336,7 @@ export default function createListComponent({
             overflow: 'auto',
             position: 'relative',
             WebkitOverflowScrolling: 'touch',
-            willChange: 'transform',
+            willChange: isHorizontal ? 'left' : 'top',
             direction,
             ...style,
           },
@@ -348,6 +348,7 @@ export default function createListComponent({
             height: isHorizontal ? '100%' : estimatedTotalSize,
             pointerEvents: isScrolling ? 'none' : undefined,
             width: isHorizontal ? estimatedTotalSize : '100%',
+            willChange: 'contents, height, pointer-events',
           },
         })
       );

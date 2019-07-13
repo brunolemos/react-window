@@ -468,7 +468,7 @@ export default function createGridComponent({
             width,
             overflow: 'auto',
             WebkitOverflowScrolling: 'touch',
-            willChange: 'transform',
+            willChange: 'top, left',
             direction,
             ...style,
           },
@@ -480,6 +480,7 @@ export default function createGridComponent({
             height: estimatedTotalHeight,
             pointerEvents: isScrolling ? 'none' : undefined,
             width: estimatedTotalWidth,
+            willChange: 'contents, width, height, pointer-events',
           },
         })
       );
