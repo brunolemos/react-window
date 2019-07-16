@@ -434,14 +434,23 @@ const DynamicSizeList = createListComponent({
         itemData,
         itemKey = defaultItemKey,
         useIsScrolling,
+        useIsVisible,
       } = instance.props;
       const { isScrolling } = instance.state;
 
-      const [startIndex, stopIndex] = instance._getRangeToRender();
+      const [
+        startIndex,
+        stopIndex,
+        visibleStartIndex,
+        visibleStopIndex,
+      ] = instance._getRangeToRender();
 
       const items = [];
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {
+          const isVisible =
+            index >= visibleStartIndex && index <= visibleStopIndex;
+
           const { size } = getItemMetadata(
             instance.props,
             index,
@@ -456,6 +465,8 @@ const DynamicSizeList = createListComponent({
             data: itemData,
             index,
             isScrolling: useIsScrolling ? isScrolling : undefined,
+            isVisible: useIsVisible ? isVisible : undefined,
+            size,
             style,
           });
 

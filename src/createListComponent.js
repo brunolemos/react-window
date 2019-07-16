@@ -18,6 +18,8 @@ export type RenderComponentProps<T> = {|
   data: T,
   index: number,
   isScrolling?: boolean,
+  isVisible?: boolean,
+  size: number,
   style: Object,
 |};
 type RenderComponent<T> = React$ComponentType<$Shape<RenderComponentProps<T>>>;
@@ -77,6 +79,7 @@ export type Props<T> = {|
   overscanCount: number,
   style?: Object,
   useIsScrolling: boolean,
+  useIsVisible: boolean,
   width: number | string,
 |};
 
@@ -167,6 +170,7 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
+      useIsVisible: false,
     };
 
     state: State = {
@@ -529,20 +533,31 @@ export default function createListComponent({
         itemData,
         itemKey = defaultItemKey,
         useIsScrolling,
+        useIsVisible,
       } = this.props;
       const { isScrolling } = this.state;
 
-      const [startIndex, stopIndex] = this._getRangeToRender();
+      const [
+        startIndex,
+        stopIndex,
+        visibleStartIndex,
+        visibleStopIndex,
+      ] = this._getRangeToRender();
 
       const items = [];
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {
+          const isVisible =
+            index >= visibleStartIndex && index <= visibleStopIndex;
+
           items.push(
             createElement(children, {
               data: itemData,
               key: itemKey(index, itemData),
               index,
               isScrolling: useIsScrolling ? isScrolling : undefined,
+              isVisible: useIsVisible ? isVisible : undefined,
+              size: getItemSize(this.props, index, this._instanceProps) || 0,
               style: this._getItemStyle(index),
             })
           );

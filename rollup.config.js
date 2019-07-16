@@ -22,6 +22,19 @@ const umdGlobals = {
   'react-dom': 'ReactDOM',
 };
 
+const commonJSOptions = {
+  namedExports: {
+    'node_modules/scheduler/index.js': [
+      'unstable_IdlePriority',
+      'unstable_ImmediatePriority',
+      'unstable_LowPriority',
+      'unstable_NormalPriority',
+      'unstable_runWithPriority',
+      'unstable_UserBlockingPriority',
+    ],
+  },
+};
+
 export default [
   {
     input,
@@ -38,7 +51,7 @@ export default [
         sourceMaps: true,
       }),
       nodeResolve(),
-      commonjs(),
+      commonjs(commonJSOptions),
     ],
   },
 
@@ -50,7 +63,7 @@ export default [
       sourcemap: true,
     },
     external,
-    plugins: [babelConfigEsModules, nodeResolve(), commonjs()],
+    plugins: [babelConfigEsModules, nodeResolve(), commonjs(commonJSOptions)],
   },
 
   {
@@ -66,7 +79,7 @@ export default [
     plugins: [
       babelConfigEsModules,
       nodeResolve(),
-      commonjs(),
+      commonjs(commonJSOptions),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
       }),
@@ -87,7 +100,7 @@ export default [
     plugins: [
       babelConfigEsModules,
       nodeResolve(),
-      commonjs(),
+      commonjs(commonJSOptions),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
