@@ -62,6 +62,7 @@ export type Props<T> = {|
   height: number | string,
   initialScrollOffset?: number,
   innerRef?: any,
+  innerStyle?: Object,
   innerElementType?: string | React$AbstractComponent<InnerProps, any>,
   innerTagName?: string, // deprecated
   itemCount: number,
@@ -294,6 +295,7 @@ export default function createListComponent({
         direction,
         height,
         innerRef,
+        innerStyle,
         innerElementType,
         innerTagName,
         itemCount,
@@ -361,6 +363,7 @@ export default function createListComponent({
           children: items,
           ref: innerRef,
           style: {
+            ...innerStyle,
             height: isHorizontal ? '100%' : estimatedTotalSize,
             pointerEvents: isScrolling ? 'none' : undefined,
             width: isHorizontal ? estimatedTotalSize : '100%',
